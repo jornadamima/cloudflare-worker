@@ -83,7 +83,7 @@ export default {
     let target = match ? match[1] : null;
 
     if (!target) {
-      target = Math.random() < 0.9 ? 'loja' : 'www';
+      target = Math.random() < 0.8 ? 'www' : 'loja';
     }
 
     const redirectUrl = `https://${target}.jornadamima.com.br${path}`;
