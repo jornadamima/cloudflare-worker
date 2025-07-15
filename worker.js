@@ -3,6 +3,24 @@ addEventListener('fetch', event => {
 })
 
 async function handleRequest(request) {
+  const url = new URL(request.url)
+  const path = url.pathname
+
+  const ignoredPaths = [
+    '/wp-admin',
+    '/wp-login.php'
+  ]
+
+  const isStaticAsset = path.match(/\.(js|css|png|jpg|jpeg|gif|svg|woff2?|ttf|eot|otf|ico|json|xml|txt|map)$/i)
+
+  if (
+    path.startsWith('/wp-json') ||
+    ignoredPaths.includes(path) ||
+    isStaticAsset
+  ) {
+    return fetch(request)
+  }
+
   const cookie = request.headers.get('Cookie') || ''
   const match = cookie.match(/redirect_target=(\w+)/)
   let target = match ? match[1] : null
@@ -11,7 +29,7 @@ async function handleRequest(request) {
     target = Math.random() < 0.5 ? 'www' : 'loja'
   }
 
-  const redirectUrl = `https://${target}.jornadamima.com.br${new URL(request.url).pathname}`
+  const redirectUrl = `https://${target}.jornadamima.com.br${path}`
 
   return new Response('', {
     status: 302,
