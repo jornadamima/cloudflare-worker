@@ -66,6 +66,7 @@ export default {
 
     const shouldBypass =
       isAlreadyRedirected ||
+      path === '/webhook' ||
       path.startsWith('/wp-json') ||
       path.startsWith('/wp-admin') ||
       path === '/wp-login.php' ||
