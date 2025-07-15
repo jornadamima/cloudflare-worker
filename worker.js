@@ -64,9 +64,12 @@ export default {
     const isAlreadyRedirected =
       hostname.startsWith('loja.') || hostname.startsWith('www.');
 
+    const userAgent = request.headers.get('User-Agent') || '';
+    const isBot = /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|crawler|spider|robot|crawling/i.test(userAgent);
+    
     const shouldBypass =
+      isBot ||
       isAlreadyRedirected ||
-      path === '/webhook' ||
       path.startsWith('/wp-json') ||
       path.startsWith('/wp-admin') ||
       path === '/wp-login.php' ||
