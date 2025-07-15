@@ -59,7 +59,13 @@ export default {
       '/cardapio-do-bebe'
     ]
 
+    const hostname = url.hostname;
+
+    const isAlreadyRedirected =
+      hostname.startsWith('loja.') || hostname.startsWith('www.');
+
     const shouldBypass =
+      isAlreadyRedirected ||
       path.startsWith('/wp-json') ||
       path.startsWith('/wp-admin') ||
       path === '/wp-login.php' ||
