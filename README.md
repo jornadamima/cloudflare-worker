@@ -82,8 +82,8 @@ compatibility_date = "2024-01-01"
 1.	Open a private/incognito window.
 2.	Visit: https://jornadamima.com.br
 3.	You should be redirected to either:
-•	https://www.jornadamima.com.br
-•	https://loja.jornadamima.com.br
+- `https://www.jornadamima.com.br`
+- `https://loja.jornadamima.com.br`
 4.	Refresh the page — the redirect should remain consistent.
-5.	Visit https://jornadamima.com.br/wp-login.php or https://jornadamima.com.br/wp-json — no redirection should occur.
-6.	Visit /my-account or /mimadminpanel — these should also bypass the redirect logic.
+5.	Visit `https://jornadamima.com.br/wp-login.php` or `https://jornadamima.com.br/wp-json` — no redirection should occur.
+6.	Visit `/my-account` or `/mimadminpanel` — these should also bypass the redirect logic.
