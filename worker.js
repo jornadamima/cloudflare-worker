@@ -6,23 +6,25 @@ async function handleRequest(request) {
   const url = new URL(request.url)
   const path = url.pathname
 
-  const ignoredPaths = [
-    '/wp-admin',
-    '/wp-login.php'
-  ]
+  const cookieHeader = request.headers.get('Cookie') || ''
 
-  const isStaticAsset = path.match(/\.(js|css|png|jpg|jpeg|gif|svg|woff2?|ttf|eot|otf|ico|json|xml|txt|map)$/i)
-
-  if (
-    path.startsWith('/wp-json') ||
-    ignoredPaths.includes(path) ||
-    isStaticAsset
-  ) {
+  if (cookieHeader.includes('wordpress_logged_in')) {
     return fetch(request)
   }
 
-  const cookie = request.headers.get('Cookie') || ''
-  const match = cookie.match(/redirect_target=(\w+)/)
+  const shouldBypass =
+    path.startsWith('/wp-json') ||
+    path.startsWith('/wp-admin') ||
+    path === '/wp-login.php' ||
+    path.startsWith('/mimadminpanel') ||
+    path.startsWith('/my-account') ||
+    /\.(js|css|png|jpg|jpeg|gif|svg|woff2?|ttf|eot|otf|ico|json|xml|txt|map)$/i.test(path)
+
+  if (shouldBypass) {
+    return fetch(request)
+  }
+
+  const match = cookieHeader.match(/redirect_target=(\w+)/)
   let target = match ? match[1] : null
 
   if (!target) {
