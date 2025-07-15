@@ -80,9 +80,9 @@ async function handleRequest(request) {
 
   const match = cookieHeader.match(/redirect_target=(\w+)/)
   let target = match ? match[1] : null
-
+  
   if (!target) {
-    target = Math.random() < 0.5 ? 'www' : 'loja'
+    target = Math.random() < 0.8 ? 'www' : 'loja';
   }
 
   const redirectUrl = `https://${target}.jornadamima.com.br${path}`
