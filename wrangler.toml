@@ -2,4 +2,4 @@ name = "ab-test-worker"
 type = "javascript"
 
 workers_dev = true
-compatibility_date = "2025-07-15"
+compatibility_date = "2024-07-01"
