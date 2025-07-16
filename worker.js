@@ -3,11 +3,15 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
     const cookieHeader = request.headers.get('Cookie') || '';
+    const userAgent = request.headers.get('User-Agent') || '';
+    const isBot = /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|crawler|spider|robot|crawling/i.test(userAgent);
 
+    // ✅ Se já está logado no WordPress, não redireciona
     if (cookieHeader.includes('wordpress_logged_in')) {
       return fetch(request);
     }
 
+    // ✅ Slugs de blog que devem ser exibidos direto
     const blogSlugs = [
       '/blog',
       '/uso-de-probioticos-em-criancas-na-prevencao-de-alergias',
@@ -57,19 +61,11 @@ export default {
       '/introducao-alimentar-participativa',
       '/alergias-alimentares-em-bebes',
       '/cardapio-do-bebe'
-    ]
+    ];
 
-    const hostname = url.hostname;
-
-    const isAlreadyRedirected =
-      hostname.startsWith('loja.') || hostname.startsWith('www.');
-
-    const userAgent = request.headers.get('User-Agent') || '';
-    const isBot = /googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|crawler|spider|robot|crawling/i.test(userAgent);
-    
+    // ✅ Ignorar redirecionamento se for bot, subdomínio já redirecionado ou paths técnicos
     const shouldBypass =
       isBot ||
-      isAlreadyRedirected ||
       path.startsWith('/wp-json') ||
       path.startsWith('/wp-admin') ||
       path === '/wp-login.php' ||
@@ -83,6 +79,7 @@ export default {
       return fetch(request);
     }
 
+    // ✅ Lógica A/B com cookie
     const match = cookieHeader.match(/redirect_target=(\w+)/);
     let target = match ? match[1] : null;
 
