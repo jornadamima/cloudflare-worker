@@ -14,6 +14,8 @@ export default {
     // ✅ Slugs de blog que devem ser exibidos direto
     const blogSlugs = [
       '/blog',
+      '/e-book/introducao-alimentar',
+      '/quiz-introducao-alimentar',
       '/uso-de-probioticos-em-criancas-na-prevencao-de-alergias',
       '/alimentos-alergenicos',
       '/seletividade-alimentar',
